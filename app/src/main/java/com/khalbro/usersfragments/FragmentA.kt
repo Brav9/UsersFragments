@@ -1,28 +1,47 @@
 package com.khalbro.usersfragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.khalbro.usersfragments.databinding.AFragmentBinding
 
-class FragmentA : Fragment() {
+class FragmentA : Fragment(), NextButtonClickListener {
 
+    private var _binding: AFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = AFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        view.findViewById<Button>(R.id.btnTransitionFragmentB).setOnClickListener {
-//            (requireActivity() as NextButtonClickListener).onNextButtonClicked()
-//        }
+        binding.btnMoveFromFragmentAToFragmentB.setOnClickListener {
+            onNextButtonClicked()
+        }
     }
-    interface NextButtonClickListener{
-        fun onNextButtonClicked()
+
+    override fun onNextButtonClicked() {
+        with(parentFragmentManager.beginTransaction()) {
+            replace(
+                R.id.container,
+                FragmentB.newInstance(),
+                FragmentB.FRAGMENT_B_TAG
+            )
+            addToBackStack(null)
+            commit()
+        }
     }
 
     companion object {
         const val FRAGMENT_A_TAG = "FRAGMENT_A_TAG"
         fun newInstance() = FragmentA()
     }
-
-//    override fun onBackPressed() = !viewModel.isLoading
 }
