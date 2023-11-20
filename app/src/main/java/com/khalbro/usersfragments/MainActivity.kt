@@ -6,32 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.khalbro.usersfragments.FragmentA.Companion.FRAGMENT_A_TAG
 
-class MainActivity : AppCompatActivity(), FragmentA.NextButtonClickListener {
+class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (supportFragmentManager.findFragmentByTag(FRAGMENT_A_TAG) == null) {
             with(supportFragmentManager.beginTransaction()) {
                 replace(
-                    com.google.android.material.R.id.container,
+                    R.id.container,
                     FragmentA.newInstance(),
                     FragmentA.FRAGMENT_A_TAG
                 )
+//                supportFragmentManager.saveBackStack("profile")
                 commit()
             }
-        }
-    }
-
-
-    override fun onNextButtonClicked() {
-        with(supportFragmentManager.beginTransaction()) {
-            replace(
-                com.google.android.material.R.id.container,
-                FragmentB.newInstance(),
-                FragmentB.FRAGMENT_B_TAG
-            )
-            addToBackStack(FragmentB.FRAGMENT_B_TAG)
-            commit()
         }
     }
 
