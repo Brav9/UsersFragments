@@ -5,12 +5,37 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.khalbro.usersfragments.databinding.DFragmentBinding
 
 class FragmentD : Fragment() {
 
     private var _binding: DFragmentBinding? = null
     private val binding get() = _binding!!
+    private val userStorage = UserStorage
+    private val userAdapter: UsersAdapter by lazy {
+        UsersAdapter(
+            listener = { user ->
+                    userStorage.changeSelectState(user)
+                    with(parentFragmentManager.beginTransaction()) {
+                        replace(
+                            R.id.container,
+                            EditUserFragment.newInstance(
+                                user.nameUser,
+                                user.surname,
+                                user.phoneNumberUser,
+                                user.id,
+                                user.iconUser
+                            ),
+                            EditUserFragment.FRAGMENT_EditUser_TAG
+                        )
+                        addToBackStack(EditUserFragment.FRAGMENT_EditUser_TAG)
+                        commit()
+
+                }
+            })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,15 +47,22 @@ class FragmentD : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val recyclerView: RecyclerView = binding.rvUsersFragmentD
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.adapter = userAdapter
 
         binding.btnBackFromFragmentDToFragmentB.setOnClickListener {
-//          parentFragmentManager.popBackStack(FragmentB.FRAGMENT_B_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             parentFragmentManager.beginTransaction()
-              .replace( R.id.container,
-                  FragmentA.newInstance(),
-                  FragmentA.FRAGMENT_A_TAG)
+                .replace(
+                    R.id.container,
+                    FragmentA.newInstance(),
+                )
                 .addToBackStack(null)
-              .commit()
+                .commit()
+        }
+
+        userStorage.currentUserLiveData.observe(viewLifecycleOwner) { userList ->
+            userAdapter.submitList(userList)
         }
     }
 

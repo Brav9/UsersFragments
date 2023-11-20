@@ -7,12 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".FragmentD">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvUsersFragmentD"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/btnBackFromFragmentDToFragmentB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Back to fragment B"
+        android:text="Back to frag B"
+        tools:listitem="@layout/item_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

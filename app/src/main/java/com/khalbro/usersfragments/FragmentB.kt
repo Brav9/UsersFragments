@@ -28,10 +28,6 @@ class FragmentB : Fragment(), NextButtonClickListener {
             onNextButtonClicked()
         }
         binding.btnBackFromFragmentBToFragmentA.setOnClickListener {
-//            parentFragmentManager.popBackStack(
-//                FragmentA.FRAGMENT_A_TAG,
-//                FragmentManager.POP_BACK_STACK_INCLUSIVE
-//            )
             parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             parentFragmentManager.beginTransaction()
                 .replace(

@@ -43,5 +43,17 @@
         <action
             android:id="@+id/action_fragmentD_to_fragmentB"
             app:destination="@id/fragmentB" />
+        <action
+            android:id="@+id/action_fragmentD_to_editUserFragment"
+            app:destination="@id/editUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserFragment"
+        android:name="com.khalbro.usersfragments.EditUserFragment"
+        android:label="fragment_edit_user"
+        tools:layout="@layout/fragment_edit_user" >
+        <action
+            android:id="@+id/action_editUserFragment_to_fragmentD"
+            app:destination="@id/fragmentD" />
     </fragment>
 </navigation>
