@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResultListener
 import com.khalbro.usersfragments.databinding.CFragmenBinding
+
 
 private const val ARG_PARAM1 = "param1"
 
@@ -14,6 +16,7 @@ class FragmentC : Fragment(), NextButtonClickListener {
 
     private var param1: String? = null
     private var _binding: CFragmenBinding? = null
+    private var result = ""
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +37,8 @@ class FragmentC : Fragment(), NextButtonClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvMassage.text = param1
+        setFragmentListener()
+
         binding.btnMoveFromFragmentCToFragmentD.setOnClickListener {
             onNextButtonClicked()
         }
@@ -63,13 +67,19 @@ class FragmentC : Fragment(), NextButtonClickListener {
         }
     }
 
-    companion object {
-        const val FRAGMENT_C_TAG = "FRAGMENT_C_TAG"
-        @JvmStatic
-        fun newInstance(param1 : String) = FragmentC().apply {
-            arguments = Bundle().apply {
-                putString(ARG_PARAM1, param1)
-            }
+    private fun setFragmentListener() {
+        setFragmentResultListener(FragmentC.REQUEST_KEY) { requestKey, bundle ->
+            result = bundle.getString(FragmentC.BUNDLE_KAY).toString()
+            binding.tvMassage.text = result
         }
+    }
+
+    companion object {
+        const val REQUEST_KEY = "REQUEST_KEY"
+        const val BUNDLE_KAY = "BUNDLE_KAY"
+        const val FRAGMENT_C_TAG = "FRAGMENT_C_TAG"
+
+        @JvmStatic
+        fun newInstance() = FragmentC()
     }
 }

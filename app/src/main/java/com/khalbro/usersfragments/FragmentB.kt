@@ -4,14 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
 import com.khalbro.usersfragments.databinding.BFragmentBinding
+
 
 class FragmentB : Fragment(), NextButtonClickListener {
 
     private var _binding: BFragmentBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +28,14 @@ class FragmentB : Fragment(), NextButtonClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val text = "Hello Fragment C"
+        setFragmentResult(
+            FragmentC.REQUEST_KEY,
+            bundleOf(FragmentC.BUNDLE_KAY to text)
+        )
+
         binding.btnMoveFromFragmentBToFragmentC.setOnClickListener {
+
             onNextButtonClicked()
         }
         binding.btnBackFromFragmentBToFragmentA.setOnClickListener {
@@ -44,7 +55,7 @@ class FragmentB : Fragment(), NextButtonClickListener {
         with(parentFragmentManager.beginTransaction()) {
             replace(
                 R.id.container,
-                FragmentC.newInstance("Hello Fragment C"),
+                FragmentC.newInstance(),
                 FragmentC.FRAGMENT_C_TAG
             )
             addToBackStack(FragmentC.FRAGMENT_C_TAG)

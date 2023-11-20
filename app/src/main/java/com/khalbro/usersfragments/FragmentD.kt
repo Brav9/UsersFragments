@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.khalbro.usersfragments.databinding.DFragmentBinding
@@ -17,21 +18,22 @@ class FragmentD : Fragment() {
     private val userAdapter: UsersAdapter by lazy {
         UsersAdapter(
             listener = { user ->
-                    userStorage.changeSelectState(user)
-                    with(parentFragmentManager.beginTransaction()) {
-                        replace(
-                            R.id.container,
-                            EditUserFragment.newInstance(
-                                user.nameUser,
-                                user.surname,
-                                user.phoneNumberUser,
-                                user.id,
-                                user.iconUser
-                            ),
-                            EditUserFragment.FRAGMENT_EditUser_TAG
-                        )
-                        addToBackStack(EditUserFragment.FRAGMENT_EditUser_TAG)
-                        commit()
+                userStorage.changeSelectState(user)
+
+                with(parentFragmentManager.beginTransaction()) {
+                    replace(
+                        R.id.container,
+                        EditUserFragment.newInstance(
+                            user.nameUser,
+                            user.surname,
+                            user.phoneNumberUser,
+                            user.id,
+                            user.iconUser
+                        ),
+                        EditUserFragment.FRAGMENT_EditUser_TAG
+                    )
+                    addToBackStack(EditUserFragment.FRAGMENT_EditUser_TAG)
+                    commit()
 
                 }
             })
